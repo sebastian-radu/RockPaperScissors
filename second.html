@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div>Pick your weapon:</div>
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissors">Scissors</button>
+
+        <div id="results">Results:</div>
+        <div id="score">Player: <span id="playerPoints"></span>  |  <span id="computerPoints"></span> :Computer</div>
+
+        <script>
+
+            const playerPoints = document.querySelector('#playerPoints');
+            const computerPoints = document.querySelector('#computerPoints');
+            const score = document.querySelector('#score');
+            let playerCurrentPoints = 0;
+            let computerCurrentPoints = 0;
+            playerPoints.textContent = playerCurrentPoints;
+            computerPoints.textContent = computerCurrentPoints;
+            playerPoints.style.color = 'blue';
+            computerPoints.style.color = 'red';
+
+            const buttons = document.querySelectorAll('button');
+                buttons.forEach((button) => {
+                    button.addEventListener('click', (e) => {
+                        if (playerCurrentPoints < 4 && computerCurrentPoints < 4) {
+                            let outcome = playRound(e.target.id);
+                            if (outcome === "win"){
+                                playerCurrentPoints++;
+                                playerPoints.textContent = playerCurrentPoints;
+                            } else if (outcome === "loss"){
+                                computerCurrentPoints++;
+                                computerPoints.textContent = computerCurrentPoints;
+                            }
+                        } else {
+                            score.textContent = "Game over!"
+                            score.style.color = 'red';
+                            const results = document.createElement('div');
+                            if (playerCurrentPoints > computerCurrentPoints) {
+                                results.textContent = "Congratulations! You win!";
+                                results.style.color = 'green';
+                            } else {
+                                results.textContent = "Oof! You lost :(";
+                                results.style.color = 'red';
+                            }
+                            score.append(results);
+                        }
+                    })
+                })
+
+            function computerPlay(){
+                let randomNumber = Math.floor(Math.random() * 3);
+                if (randomNumber == 0) {
+                    return ("rock");
+                } else if (randomNumber == 1) {
+                    return ("paper");
+                } else {
+                    return ("scissors");
+                }
+            }
+
+            function playRound(playerSelection, computerSelection){
+                computerSelection = computerPlay();
+                console.log(playerSelection, computerSelection);
+                if (playerSelection == computerSelection){
+                    return ("tie");
+                } else if (playerSelection == "rock"){
+                    if (computerSelection == "paper"){
+                        return ("loss");
+                    } else {
+                        return ("win");
+                    }
+                } else if (playerSelection == "paper"){
+                    if (computerSelection == "rock"){
+                        return ("win");
+                    } else {
+                        return ("loss");
+                    }
+                } else {
+                    if (computerSelection == "paper") {
+                        return ("win");
+                    } else {
+                        return ("loss");
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
